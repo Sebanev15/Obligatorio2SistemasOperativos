@@ -4,15 +4,21 @@ import org.example.Baristas;
 import org.example.Cafetera;
 import org.example.Pedido;
 import org.example.Producto;
-import org.example.fuentes.IFuentePedidoCafetera;
+import org.example.fuentes.IFuentePedido;
 
-public class PedidoApp implements IFuentePedidoCafetera {
+public class PedidoApp implements IFuentePedido {
+    private final Cafetera cafetera;
+
+    public PedidoApp(Cafetera cafetera){
+        this.cafetera = cafetera;
+    }
     @Override
-    public void procesarPedido(Pedido pedido, Cafetera cafetera, Baristas baristas) throws InterruptedException {
+    public void procesarPedido(Pedido pedido, Baristas baristas) throws InterruptedException {
         baristas.ocuparBarista();
         if(pedido.getProducto().equals(Producto.CAFE)){
-            cafetera.procesarCafe(pedido);
+            this.cafetera.procesarCafe(pedido);
         }
         pedido.setCompletado(true);
+        baristas.liberarBarista();
     }
 }

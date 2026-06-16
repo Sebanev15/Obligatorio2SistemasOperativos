@@ -5,8 +5,20 @@ import java.util.Queue;
 
 public class GestionPedidos {
     Queue<Pedido> pedidos;
-    ArrayList<Baristas> baristas;
+    Baristas baristas;
     Cafetera cafetera;
     CajaRegistradora cajaRegistradora;
+
+    public void procesarPedidos() throws InterruptedException {
+        while(!pedidos.isEmpty()){
+            for(Pedido pedido: pedidos){
+                pedido.getFuentePedido().procesarPedido(pedido, baristas);
+            }
+        }
+    }
+
+    public void agregarPedido(Pedido pedido){
+        pedidos.add(pedido);
+    }
 
 }

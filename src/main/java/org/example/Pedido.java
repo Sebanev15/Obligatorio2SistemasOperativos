@@ -1,9 +1,6 @@
 package org.example;
 
 import org.example.fuentes.IFuentePedido;
-import org.example.tiposPedidos.PedidoApp;
-import org.example.tiposPedidos.PedidoMostrador;
-import org.example.tiposPedidos.PedidoTotem;
 
 public class Pedido extends Thread{
     private Producto producto;
@@ -11,13 +8,14 @@ public class Pedido extends Thread{
     private Cliente cliente;
     private int prioridad;
     private boolean completado;
-    private IFuentePedido fuentePedido;
+    private final IFuentePedido fuentePedido;
 
-    public Pedido(Producto producto, Cliente cliente){
+    public Pedido(Producto producto, Cliente cliente, IFuentePedido fuentePedido) {
         this.producto = producto;
         this.tiempoProcesarTotal = this.producto.getTiempoProcesar();
         this.cliente = cliente;
         this.completado = false;
+        this.fuentePedido = fuentePedido;
     }
 
     public Producto getProducto() {
@@ -56,15 +54,4 @@ public class Pedido extends Thread{
         this.tiempoProcesarTotal = tiempoProcesarTotal;
     }
 
-    public void procesarPedido(GestionPedidos gestionPedidos, Baristas baristas) throws InterruptedException {
-        if(fuentePedido instanceof PedidoApp pedidoApp){
-            pedidoApp.procesarPedido(this, gestionPedidos.cafetera, baristas);
-        }
-        if(fuentePedido instanceof PedidoMostrador pedidoMostrador){
-            pedidoMostrador.procesarPedido(this, gestionPedidos.cafetera, gestionPedidos.cajaRegistradora, baristas);
-        }
-        if(fuentePedido instanceof PedidoTotem pedidoTotem){
-            pedidoTotem.procesarPedido(this, gestionPedidos.cafetera, baristas);
-        }
-    }
 }
