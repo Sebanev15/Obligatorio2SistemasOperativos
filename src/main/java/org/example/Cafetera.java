@@ -9,8 +9,7 @@ public class Cafetera {
         if(!pedido.isCompletado()){
             if(pedido.getProducto().equals(Producto.CAFE)){
                 llave.lock();
-                pedido.setTiempoProcesarTotal(pedido.getTiempoProcesarTotal()-1);
-                pedido.setCompletado(pedido.getTiempoProcesarTotal() <= 0);
+                pedido.setTiempoProcesarTotal(0);
                 llave.unlock();
             }
         }

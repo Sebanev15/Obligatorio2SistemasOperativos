@@ -3,33 +3,36 @@ package org.example;
 public class Baristas {
     boolean hayBaristas;
     int cantidadBaristas;
+    int cantidadDisponibles;
 
     public Baristas(int cantidadBaristasInicial){
         this.cantidadBaristas = Math.max(cantidadBaristasInicial, 0);
-        this.hayBaristas = cantidadBaristas != 0;
+        this.cantidadDisponibles = this.cantidadBaristas;
     }
 
     public int agregarBarista(){
         this.cantidadBaristas++;
-        this.hayBaristas = true;
+        this.cantidadDisponibles++;
         notify();
         return cantidadBaristas;
     }
 
     public int eliminarBarista(){
         this.cantidadBaristas = Math.max(this.cantidadBaristas - 1, 0);
-        this.hayBaristas = cantidadBaristas != 0;
+        this.cantidadDisponibles = Math.max(this.cantidadDisponibles - 1, 0);
         return cantidadBaristas;
     }
 
     public synchronized void ocuparBarista() throws InterruptedException {
-        while (!hayBaristas){
+        while (!(cantidadDisponibles > 0)) {
             wait();
         }
+        this.cantidadDisponibles--;
+        //TODO LOGICA
     }
 
     public synchronized void liberarBarista(){
-        hayBaristas = true;
+        cantidadDisponibles = Math.min(this.cantidadDisponibles + 1, this.cantidadBaristas);
         notify();
     }
 }
