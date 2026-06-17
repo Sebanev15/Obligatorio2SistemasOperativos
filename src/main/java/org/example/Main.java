@@ -1,17 +1,49 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import org.example.tiposPedidos.PedidoApp;
+import org.example.tiposPedidos.PedidoMostrador;
+import org.example.tiposPedidos.PedidoTotem;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        Cafetera cafetera = new Cafetera();
+        CajaRegistradora cajaRegistradora = new CajaRegistradora();
+        Baristas baristas = new Baristas(1);
+        GestionPedidos gestionPedidos = new GestionPedidos(baristas, cafetera, cajaRegistradora);
+
+        Cliente estudiante1 = new Cliente("Juan", RolCliente.ESTUDIANTE);
+        Cliente docente1 = new Cliente("Juan", RolCliente.DOCENTE);
+
+        PedidoApp pedidoApp = new PedidoApp(cafetera, baristas);
+        PedidoMostrador pedidoMostrador = new PedidoMostrador(cafetera, cajaRegistradora, baristas);
+        PedidoTotem pedidoTotem = new PedidoTotem(cafetera, baristas);
+
+
+        Pedido pedido1 = estudiante1.crearPedido(Producto.CAFE, pedidoApp);
+        Pedido pedido3 = estudiante1.crearPedido(Producto.AGUA, pedidoApp);
+        Pedido pedido4 = estudiante1.crearPedido(Producto.CAFE, pedidoApp);
+        Pedido pedido5 = estudiante1.crearPedido(Producto.SANDWICH, pedidoApp);
+        Pedido pedido6 = estudiante1.crearPedido(Producto.CAFE, pedidoApp);
+        Pedido pedido7 = estudiante1.crearPedido(Producto.AGUA, pedidoApp);
+        Pedido pedido8 = estudiante1.crearPedido(Producto.CAFE, pedidoApp);
+        Pedido pedido9 = estudiante1.crearPedido(Producto.CAFE, pedidoApp);
+
+        Pedido pedido2 = docente1.crearPedido(Producto.CAFE, pedidoMostrador);
+
+        gestionPedidos.agregarPedido(pedido1);
+        gestionPedidos.agregarPedido(pedido3);
+        gestionPedidos.agregarPedido(pedido4);
+        gestionPedidos.agregarPedido(pedido5);
+        gestionPedidos.agregarPedido(pedido6);
+        gestionPedidos.agregarPedido(pedido7);
+        gestionPedidos.agregarPedido(pedido2);
+
+
+        while(!gestionPedidos.pedidos.isEmpty()){
+            gestionPedidos.procesarPedidos();
         }
+        System.out.println("D");
+
+
     }
 }

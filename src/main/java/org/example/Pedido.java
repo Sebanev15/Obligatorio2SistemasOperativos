@@ -2,13 +2,15 @@ package org.example;
 
 import org.example.fuentes.IFuentePedido;
 
-public class Pedido extends Thread{
+public class Pedido extends Thread implements Comparable<Pedido> {
     private Producto producto;
     private int tiempoProcesarTotal;
     private Cliente cliente;
     private int prioridad;
     private boolean completado;
     private final IFuentePedido fuentePedido;
+    private int tiempoEspera;
+    private int ponderadoTiempoEspera;
 
     public Pedido(Producto producto, Cliente cliente, IFuentePedido fuentePedido) {
         this.producto = producto;
@@ -16,6 +18,7 @@ public class Pedido extends Thread{
         this.cliente = cliente;
         this.completado = false;
         this.fuentePedido = fuentePedido;
+        this.tiempoEspera = 0;
     }
 
     public Producto getProducto() {
@@ -42,6 +45,10 @@ public class Pedido extends Thread{
         return fuentePedido;
     }
 
+    public int getTiempoEspera() {
+        return tiempoEspera;
+    }
+
     public void setPrioridad(int prioridad) {
         this.prioridad = prioridad;
     }
@@ -54,4 +61,39 @@ public class Pedido extends Thread{
         this.tiempoProcesarTotal = tiempoProcesarTotal;
     }
 
+    public void setTiempoEspera(int tiempoEspera) {
+        this.tiempoEspera = tiempoEspera;
+    }
+
+    public void aumentarTiempoEspera(int tiempoEspera) {
+        this.tiempoEspera += Math.max(tiempoEspera, 0);
+        if(this.tiempoEspera < 30){
+            this.ponderadoTiempoEspera = 1;
+        }else if(this.tiempoEspera < 60){
+            this.ponderadoTiempoEspera = 2;
+        } else if (this.tiempoEspera < 90) {
+            this.ponderadoTiempoEspera = 3;
+        } else {
+            this.ponderadoTiempoEspera = 4;
+        }
+    }
+
+    @Override
+    public void start() {
+        try {
+            fuentePedido.procesarPedido(this);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        this.interrupt();
+    }
+
+    public void calcularPrioridad(){
+        this.prioridad = (this.tiempoEspera * this.ponderadoTiempoEspera) + this.cliente.getFidelidad() + this.producto.getPrioridad() + this.cliente.getPrioridad();
+    }
+
+    @Override
+    public int compareTo(Pedido o) {
+        return Integer.compare(this.prioridad, o.prioridad);
+    }
 }

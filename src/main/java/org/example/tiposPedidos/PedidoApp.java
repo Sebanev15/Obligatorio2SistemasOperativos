@@ -8,12 +8,14 @@ import org.example.fuentes.IFuentePedido;
 
 public class PedidoApp implements IFuentePedido {
     private final Cafetera cafetera;
+    private final Baristas baristas;
 
-    public PedidoApp(Cafetera cafetera){
+    public PedidoApp(Cafetera cafetera, Baristas baristas) {
         this.cafetera = cafetera;
+        this.baristas = baristas;
     }
     @Override
-    public void procesarPedido(Pedido pedido, Baristas baristas) throws InterruptedException {
+    public void procesarPedido(Pedido pedido) throws InterruptedException {
         baristas.ocuparBarista();
         if(pedido.getProducto().equals(Producto.CAFE)){
             this.cafetera.procesarCafe(pedido);
