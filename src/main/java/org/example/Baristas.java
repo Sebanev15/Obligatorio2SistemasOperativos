@@ -28,7 +28,7 @@ public class Baristas {
             wait();
         }
         this.cantidadDisponibles--;
-        //TODO LOGICA
+       
     }
 
     public synchronized void liberarBarista(){

@@ -17,10 +17,11 @@ public class PedidoApp implements IFuentePedido {
     @Override
     public void procesarPedido(Pedido pedido) throws InterruptedException {
         baristas.ocuparBarista();
+        Thread.sleep(pedido.getProducto().getTiempoProcesar()*1000);
         if(pedido.getProducto().equals(Producto.CAFE)){
             this.cafetera.procesarCafe(pedido);
         }
-        pedido.setCompletado(true);
         baristas.liberarBarista();
+        pedido.setCompletado(true);
     }
 }

@@ -79,13 +79,15 @@ public class Pedido extends Thread implements Comparable<Pedido> {
     }
 
     @Override
-    public void start() {
+    public void run() {
         try {
+            
+            System.out.println(this.producto + " "+ this.cliente.getRol()+" "+this.tiempoEspera+" "+this.cliente.getNombre());
             fuentePedido.procesarPedido(this);
+            
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        this.interrupt();
     }
 
     public void calcularPrioridad(){
