@@ -84,7 +84,6 @@ public class Pedido extends Thread implements Comparable<Pedido> {
             System.out.println(this.producto + " "+ this.cliente.getRol()+" "+this.tiempoEspera+" "+this.cliente.getNombre() + " Prioridad: " + this.prioridad);
             Thread.sleep(this.getProducto().getTiempoProcesar()*1000);
             fuentePedido.procesarPedido(this);
-            
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

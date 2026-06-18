@@ -42,12 +42,15 @@ public class Main {
         gestionPedidos.agregarPedido(pedido7);
         gestionPedidos.agregarPedido(pedido2);
 
+
         while (!gestionPedidos.pedidos.isEmpty()) {
             gestionPedidos.procesarPedidos();
-            gestionPedidos.procesarPedidos();
-            gestionPedidos.procesarPedidos();
+
         }
 
+        Thread.sleep(10000);
         gestionPedidos.cerrarCaja();
+
+
     }
 }

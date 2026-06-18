@@ -32,7 +32,7 @@ public class Baristas {
             wait();
         }
         this.cantidadDisponibles--;
-        Thread.sleep(500);
+        Thread.sleep(1000);
     }
 
     public synchronized void liberarBarista(){

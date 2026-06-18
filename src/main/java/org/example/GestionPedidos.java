@@ -26,22 +26,28 @@ public class GestionPedidos {
             wait();
         }
         Pedido pedido = pedidos.poll();
-        baristas.ocuparBarista();
-        pedidosCompletados.add(pedido);
         pedido.getCliente().setFidelidad(pedido.getCliente().getFidelidad() + 2);
+        pedidosCompletados.add(pedido);
 
-        this.pedidos = new PriorityQueue<>(pedidos);
-        pedido.run();
-        System.out.println(baristas.cantidadDisponibles+ " mozos disponibles");
-        baristas.liberarBarista();
+        for(Pedido p: pedidos){
+            p.aumentarTiempoEspera(1);
+            p.calcularPrioridad();
+
+        }
+        Queue<Pedido> pedidosAux = new PriorityQueue<>(pedidos);
+        pedidos = pedidosAux;
+        pedido.start();
     }
 
-    public synchronized void agregarPedido(Pedido pedido) throws InterruptedException {
+    public synchronized void agregarPedido(Pedido pedido) {
         pedidos.add(pedido);
         notify();
     }
 
-    public void cerrarCaja(){
+    public void cerrarCaja() throws InterruptedException {
+        while(!pedidos.isEmpty()){
+            wait();
+        }
         double profit =0.0;
         int tiempoTotal=0;
         Map <Producto,Integer> ventas= new HashMap<>();
