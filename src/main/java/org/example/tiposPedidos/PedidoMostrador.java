@@ -15,13 +15,12 @@ public class PedidoMostrador implements IFuentePedido {
     }
     @Override
     public void procesarPedido(Pedido pedido) throws InterruptedException {
-        baristas.ocuparBarista();
+        System.out.println("Baristas actuales: " + this.baristas.getCantidadDisponibles());
         if(pedido.getProducto().equals(Producto.CAFE)){
             cafetera.procesarCafe(pedido);
         }
         cajaRegistradora.procesarEnMostrador(pedido);
         pedido.setCompletado(true);
-        baristas.liberarBarista();
 
     }
 }

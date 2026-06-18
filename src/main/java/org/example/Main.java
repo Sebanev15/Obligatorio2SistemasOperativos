@@ -44,8 +44,9 @@ public class Main {
 
         while (!gestionPedidos.pedidos.isEmpty()) {
             gestionPedidos.procesarPedidos();
+            gestionPedidos.procesarPedidos();
+            gestionPedidos.procesarPedidos();
         }
-        System.out.println("D");
 
         gestionPedidos.cerrarCaja();
     }

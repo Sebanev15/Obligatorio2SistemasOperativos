@@ -10,6 +10,10 @@ public class Baristas {
         this.cantidadDisponibles = this.cantidadBaristas;
     }
 
+    public int getCantidadDisponibles() {
+        return cantidadDisponibles;
+    }
+
     public int agregarBarista(){
         this.cantidadBaristas++;
         this.cantidadDisponibles++;
@@ -28,7 +32,7 @@ public class Baristas {
             wait();
         }
         this.cantidadDisponibles--;
-       
+        Thread.sleep(500);
     }
 
     public synchronized void liberarBarista(){

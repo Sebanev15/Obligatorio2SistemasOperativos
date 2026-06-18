@@ -25,19 +25,18 @@ public class GestionPedidos {
         while(pedidos.isEmpty()){
             wait();
         }
-        Pedido pedidoP = pedidos.poll();
-        Thread pedido = pedidoP;
-        System.out.println(baristas.cantidadDisponibles+ " mozos disponibles");
+        Pedido pedido = pedidos.poll();
+        baristas.ocuparBarista();
+        pedidosCompletados.add(pedido);
+        pedido.getCliente().setFidelidad(pedido.getCliente().getFidelidad() + 2);
+
+        this.pedidos = new PriorityQueue<>(pedidos);
         pedido.run();
-        pedidosCompletados.add(pedidoP);
-        pedidoP.getCliente().setFidelidad(pedidoP.getCliente().getFidelidad() + 2);
-        for(Pedido p : pedidos){
-            p.aumentarTiempoEspera(1);
-            p.calcularPrioridad();
-        }
+        System.out.println(baristas.cantidadDisponibles+ " mozos disponibles");
+        baristas.liberarBarista();
     }
 
-    public synchronized void agregarPedido(Pedido pedido){
+    public synchronized void agregarPedido(Pedido pedido) throws InterruptedException {
         pedidos.add(pedido);
         notify();
     }
