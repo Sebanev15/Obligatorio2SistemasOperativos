@@ -26,7 +26,6 @@ public class GestionPedidos {
             wait();
         }
         Pedido pedido = pedidos.poll();
-
         for(Pedido p: pedidos){
             p.aumentarTiempoEspera(1);
             p.calcularPrioridad();
@@ -34,6 +33,7 @@ public class GestionPedidos {
         Queue<Pedido> pedidosAux = new PriorityQueue<>(pedidos);
         pedidos = pedidosAux;
         pedido.start();
+        pedidosCompletados.add(pedido);
     }
 
     public synchronized void agregarPedido(Pedido pedido) {

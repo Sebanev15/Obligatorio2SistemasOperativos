@@ -48,7 +48,7 @@ public class Main {
 
         }
 
-        Thread.sleep(12000);
+        Thread.sleep(15000);
         gestionPedidos.cerrarCaja();
 
 
