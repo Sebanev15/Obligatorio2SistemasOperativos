@@ -2,10 +2,12 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 
 public class GestionPedidos {
     Queue<Pedido> pedidos;
@@ -49,6 +51,7 @@ public class GestionPedidos {
         int tiempoTotal=0;
         int cantidadPedidos=pedidosCompletados.size();
         int sumaTiempoEspera=0;
+        Set <Long> pedidosInaceptables = new HashSet<>();
         Map <Producto,Integer> ventas= new HashMap<>();
         System.out.println("===== CAJA HOY =====");
         for (Pedido p:pedidosCompletados){
@@ -61,6 +64,9 @@ public class GestionPedidos {
             }else{
                 ventas.put(p.getProducto(), ventas.get(p.getProducto())+1);
             }
+            if (p.getTiempoEspera()>100){
+                pedidosInaceptables.add(p.getId());
+            }
         }
 
         pedidosCompletados.clear();
@@ -72,6 +78,12 @@ public class GestionPedidos {
         System.out.println("Tiempo promedio de espera: "+(double)sumaTiempoEspera/cantidadPedidos);
         double porcentajeUsoCafetera = ((double) ventas.get(Producto.CAFE) / cantidadPedidos) * 100;
         System.out.println("Porcentaje de uso de la cafetera: " + porcentajeUsoCafetera + "%");
+        if (pedidosInaceptables.isEmpty()){
+            System.out.println("No hubo pedidos con exceso de espera");
+        } else {
+            System.out.println("Id de pedidos con exceso de espera: "+pedidosInaceptables.toString());
+        }
+        
     }
 
     public synchronized void completarPedido(Pedido pedido) {

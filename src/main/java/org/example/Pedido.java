@@ -12,6 +12,8 @@ public class Pedido extends Thread implements Comparable<Pedido> {
     private int tiempoEspera;
     private int ponderadoTiempoEspera;
     private boolean procesando;
+    private static int contadorId;
+    private long id;
 
     public Pedido(Producto producto, Cliente cliente, IFuentePedido fuentePedido) {
         this.producto = producto;
@@ -23,6 +25,7 @@ public class Pedido extends Thread implements Comparable<Pedido> {
         this.ponderadoTiempoEspera = 0;
         this.procesando = false;
         calcularPrioridad();
+        this.id=++contadorId;
     }
 
     public Producto getProducto() {
@@ -39,6 +42,10 @@ public class Pedido extends Thread implements Comparable<Pedido> {
 
     public int getPrioridad() {
         return prioridad;
+    }
+
+    public long getId(){
+        return id;
     }
 
     public boolean isCompletado() {
