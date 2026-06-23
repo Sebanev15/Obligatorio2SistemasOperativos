@@ -43,9 +43,8 @@ public class Main {
         gestionPedidos.agregarPedido(pedido8);
         gestionPedidos.agregarPedido(pedido9);
 
-        while (!gestionPedidos.pedidos.isEmpty()) {
+        while (!gestionPedidos.getPedidos().isEmpty()) {
             gestionPedidos.procesarPedidos();
-
         }
 
         Thread.sleep(15000);

@@ -90,4 +90,8 @@ public class GestionPedidos {
         pedidosCompletados.add(pedido);
         pedido.getCliente().setFidelidad(pedido.getCliente().getFidelidad() + 2);
     }
+
+    public Queue<Pedido> getPedidos() {
+        return pedidos;
+    }
 }
