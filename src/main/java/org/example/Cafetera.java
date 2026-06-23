@@ -9,7 +9,7 @@ public class Cafetera {
         if(!pedido.isCompletado()){
             if(pedido.getProducto().equals(Producto.CAFE)){
                 llave.lock();
-                System.out.println("Procesando cafe del " + pedido.getCliente().getRol() + " " + pedido.getCliente().getNombre());
+                System.out.println("turno del pedido de " + pedido.getCliente().getRol() + " " + pedido.getCliente().getNombre() + " en cafetera");
                 Thread.sleep(pedido.getProducto().getTiempoProcesar()*1000);
                 llave.unlock();
                 System.out.println("Cafetera libre");

@@ -11,6 +11,7 @@ public class Pedido extends Thread implements Comparable<Pedido> {
     private final IFuentePedido fuentePedido;
     private int tiempoEspera;
     private int ponderadoTiempoEspera;
+    private boolean procesando;
 
     public Pedido(Producto producto, Cliente cliente, IFuentePedido fuentePedido) {
         this.producto = producto;
@@ -19,6 +20,9 @@ public class Pedido extends Thread implements Comparable<Pedido> {
         this.completado = false;
         this.fuentePedido = fuentePedido;
         this.tiempoEspera = 0;
+        this.ponderadoTiempoEspera = 0;
+        this.procesando = false;
+        calcularPrioridad();
     }
 
     public Producto getProducto() {
@@ -49,6 +53,10 @@ public class Pedido extends Thread implements Comparable<Pedido> {
         return tiempoEspera;
     }
 
+    public boolean isProcesando() {
+        return procesando;
+    }
+
     public void setPrioridad(int prioridad) {
         this.prioridad = prioridad;
     }
@@ -63,6 +71,10 @@ public class Pedido extends Thread implements Comparable<Pedido> {
 
     public void setTiempoEspera(int tiempoEspera) {
         this.tiempoEspera = tiempoEspera;
+    }
+
+    public void setProcesando(boolean procesando) {
+        this.procesando = procesando;
     }
 
     public void aumentarTiempoEspera(int tiempoEspera) {
@@ -81,7 +93,6 @@ public class Pedido extends Thread implements Comparable<Pedido> {
     @Override
     public void run() {
         try {
-            System.out.println(this.producto + " "+ this.cliente.getRol()+" "+this.tiempoEspera+" "+this.cliente.getNombre() + " Prioridad: " + this.prioridad);
             Thread.sleep(this.getProducto().getTiempoProcesar()*1000);
             fuentePedido.procesarPedido(this);
         } catch (InterruptedException e) {
@@ -95,6 +106,6 @@ public class Pedido extends Thread implements Comparable<Pedido> {
 
     @Override
     public int compareTo(Pedido o) {
-        return Integer.compare(this.prioridad, o.prioridad);
+        return Integer.compare(o.prioridad, this.prioridad);
     }
 }
