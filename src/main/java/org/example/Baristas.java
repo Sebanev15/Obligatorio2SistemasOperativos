@@ -1,13 +1,17 @@
 package org.example;
 
 public class Baristas {
-    boolean hayBaristas;
-    int cantidadBaristas;
-    int cantidadDisponibles;
+    private boolean hayBaristas;
+    private int cantidadBaristas;
+    private int cantidadDisponibles;
 
     public Baristas(int cantidadBaristasInicial){
         this.cantidadBaristas = Math.max(cantidadBaristasInicial, 0);
         this.cantidadDisponibles = this.cantidadBaristas;
+    }
+
+    public int getCantidadDisponibles() {
+        return cantidadDisponibles;
     }
 
     public int agregarBarista(){
@@ -28,7 +32,7 @@ public class Baristas {
             wait();
         }
         this.cantidadDisponibles--;
-        //TODO LOGICA
+        Thread.sleep(1000);
     }
 
     public synchronized void liberarBarista(){

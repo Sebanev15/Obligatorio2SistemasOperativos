@@ -11,6 +11,9 @@ public class Pedido extends Thread implements Comparable<Pedido> {
     private final IFuentePedido fuentePedido;
     private int tiempoEspera;
     private int ponderadoTiempoEspera;
+    private boolean procesando;
+    private static int contadorId;
+    private long id;
 
     public Pedido(Producto producto, Cliente cliente, IFuentePedido fuentePedido) {
         this.producto = producto;
@@ -19,6 +22,10 @@ public class Pedido extends Thread implements Comparable<Pedido> {
         this.completado = false;
         this.fuentePedido = fuentePedido;
         this.tiempoEspera = 0;
+        this.ponderadoTiempoEspera = 0;
+        this.procesando = false;
+        calcularPrioridad();
+        this.id=++contadorId;
     }
 
     public Producto getProducto() {
@@ -37,6 +44,10 @@ public class Pedido extends Thread implements Comparable<Pedido> {
         return prioridad;
     }
 
+    public long getId(){
+        return id;
+    }
+
     public boolean isCompletado() {
         return completado;
     }
@@ -47,6 +58,10 @@ public class Pedido extends Thread implements Comparable<Pedido> {
 
     public int getTiempoEspera() {
         return tiempoEspera;
+    }
+
+    public boolean isProcesando() {
+        return procesando;
     }
 
     public void setPrioridad(int prioridad) {
@@ -65,6 +80,10 @@ public class Pedido extends Thread implements Comparable<Pedido> {
         this.tiempoEspera = tiempoEspera;
     }
 
+    public void setProcesando(boolean procesando) {
+        this.procesando = procesando;
+    }
+
     public void aumentarTiempoEspera(int tiempoEspera) {
         this.tiempoEspera += Math.max(tiempoEspera, 0);
         if(this.tiempoEspera < 30){
@@ -79,13 +98,13 @@ public class Pedido extends Thread implements Comparable<Pedido> {
     }
 
     @Override
-    public void start() {
+    public void run() {
         try {
+            Thread.sleep(this.getProducto().getTiempoProcesar()*1000);
             fuentePedido.procesarPedido(this);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        this.interrupt();
     }
 
     public void calcularPrioridad(){
@@ -94,6 +113,6 @@ public class Pedido extends Thread implements Comparable<Pedido> {
 
     @Override
     public int compareTo(Pedido o) {
-        return Integer.compare(this.prioridad, o.prioridad);
+        return Integer.compare(o.prioridad, this.prioridad);
     }
 }

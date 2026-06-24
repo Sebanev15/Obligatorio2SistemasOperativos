@@ -17,10 +17,13 @@ public class PedidoTotem implements IFuentePedido {
     @Override
     public void procesarPedido(Pedido pedido) throws InterruptedException {
         baristas.ocuparBarista();
+        pedido.setProcesando(true);
+        System.out.println("Procesando " + pedido.getProducto() + " de " + pedido.getCliente().getRol() + " " + pedido.getCliente().getNombre() + " desde el totem");
         if(pedido.getProducto().equals(Producto.CAFE)){
             cafetera.procesarCafe(pedido);
         }
-        pedido.setCompletado(true);
         baristas.liberarBarista();
+        pedido.setCompletado(true);
+        System.out.println("Pedido de " + pedido.getCliente().getRol() + " " + pedido.getCliente().getNombre() + " completado");
     }
 }

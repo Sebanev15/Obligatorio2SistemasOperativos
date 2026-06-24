@@ -5,7 +5,7 @@ import org.example.tiposPedidos.PedidoMostrador;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class CajaRegistradora {
-    static ReentrantLock llave = new ReentrantLock();
+    private static ReentrantLock llave = new ReentrantLock();
 
     public void procesarEnMostrador(Pedido pedido){
         if(!pedido.isCompletado()){
@@ -16,4 +16,6 @@ public class CajaRegistradora {
             }
         }
     }
+
+    
 }

@@ -3,14 +3,16 @@ package org.example;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Cafetera {
-    static ReentrantLock llave = new ReentrantLock();
+    private static ReentrantLock llave = new ReentrantLock();
 
-    public void procesarCafe(Pedido pedido){
+    public void procesarCafe(Pedido pedido) throws InterruptedException {
         if(!pedido.isCompletado()){
             if(pedido.getProducto().equals(Producto.CAFE)){
                 llave.lock();
-                pedido.setTiempoProcesarTotal(0);
+                System.out.println("turno del pedido de " + pedido.getCliente().getRol() + " " + pedido.getCliente().getNombre() + " en cafetera");
+                Thread.sleep(pedido.getProducto().getTiempoProcesar()*1000);
                 llave.unlock();
+                System.out.println("Cafetera libre");
             }
         }
     }
