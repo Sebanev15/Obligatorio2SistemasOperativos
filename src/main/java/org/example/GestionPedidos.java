@@ -10,11 +10,11 @@ import java.util.Queue;
 import java.util.Set;
 
 public class GestionPedidos {
-    Queue<Pedido> pedidos;
-    LinkedList<Pedido> pedidosCompletados;
-    Baristas baristas;
-    Cafetera cafetera;
-    CajaRegistradora cajaRegistradora;
+    private Queue<Pedido> pedidos;
+    private LinkedList<Pedido> pedidosCompletados;
+    private Baristas baristas;
+    private Cafetera cafetera;
+    private CajaRegistradora cajaRegistradora;
 
     public GestionPedidos(Baristas baristas, Cafetera cafetera, CajaRegistradora cajaRegistradora) {
         this.baristas = baristas;

@@ -3,7 +3,7 @@ package org.example;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Cafetera {
-    static ReentrantLock llave = new ReentrantLock();
+    private static ReentrantLock llave = new ReentrantLock();
 
     public void procesarCafe(Pedido pedido) throws InterruptedException {
         if(!pedido.isCompletado()){

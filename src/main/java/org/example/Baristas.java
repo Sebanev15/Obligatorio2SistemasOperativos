@@ -1,9 +1,9 @@
 package org.example;
 
 public class Baristas {
-    boolean hayBaristas;
-    int cantidadBaristas;
-    int cantidadDisponibles;
+    private boolean hayBaristas;
+    private int cantidadBaristas;
+    private int cantidadDisponibles;
 
     public Baristas(int cantidadBaristasInicial){
         this.cantidadBaristas = Math.max(cantidadBaristasInicial, 0);
